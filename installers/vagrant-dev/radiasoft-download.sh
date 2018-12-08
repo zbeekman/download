@@ -204,6 +204,11 @@ Vagrant.configure("2") do |config|
     config.vm.box = "$box"
     config.vm.hostname = "$host"
     config.vm.network "private_network", ip: "$ip"
+    config.vm.provider "vmware_desktop" do |v|
+      v.vmx["memsize"] = "${vagrant_dev_memory:-8192}"
+      v.vmx["numvcpus"] = "${vagrant_dev_cpus:-4}"
+      v.vmx["vpmc.enable"] = "TRUE" # Allow for the collection of hardware counters
+    end
     config.vm.provider "virtualbox" do |v|
         ${timesync}
         ${macos_fixes}
